@@ -9,8 +9,8 @@ Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 Source1:        nvidia-vaapi.sh
 
 BuildRequires:  gcc
+BuildRequires:  libva-devel
 BuildRequires:  meson >= 0.58.0
-#BuildRequires:  mesa-libEGL-devel
 BuildRequires:  nv-codec-headers >= 11.1.5.1
 BuildRequires:  pkgconfig(gstreamer-codecparsers-1.0)
 
