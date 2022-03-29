@@ -16,6 +16,8 @@ Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 %endif
 
 BuildRequires:  gcc
+# gettid() available from glibc 2.30:
+BuildRequires:  glibc-devel >= 2.30
 BuildRequires:  mesa-libEGL-devel
 BuildRequires:  meson >= 0.58.0
 BuildRequires:  nv-codec-headers >= 11.1.5.1
