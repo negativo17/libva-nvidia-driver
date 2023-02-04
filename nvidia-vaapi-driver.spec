@@ -1,9 +1,9 @@
-%global commit0 4992e29e141199b4a181bbe40922dc0e66cfff21
-%global date 20221024
+%global commit0 2bb71a5b3183b343fe4e52307bb072ac81b26a1d
+%global date 20230131
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
 Name:           nvidia-vaapi-driver
-Version:        0.0.7
+Version:        0.0.8
 Release:        1%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
 Summary:        VA-API user mode driver for Nvidia GPUs
 License:        MIT
@@ -20,13 +20,13 @@ BuildRequires:  gcc
 BuildRequires:  glibc-devel >= 2.30
 BuildRequires:  mesa-libEGL-devel
 BuildRequires:  meson >= 0.58.0
-BuildRequires:  nv-codec-headers >= 11.1.5.1
+BuildRequires:  pkgconfig(ffnvcodec) >= 11.1.5.1
 BuildRequires:  pkgconfig(gstreamer-codecparsers-1.0)
+BuildRequires:  pkgconfig(libdrm) >= 2.4.60
 BuildRequires:  pkgconfig(libva) >= 1.8.0
 
 Conflicts:      libva-vdpau-driver%{?_isa}
 
-Requires:       libva%{?_isa}
 Requires:       mesa-filesystem
 
 %description
@@ -54,6 +54,9 @@ decode of web content, and may not operate correctly in other applications.
 %{_libdir}/dri/nvidia_drv_video.so
 
 %changelog
+* Sat Feb 04 2023 Simone Caronni <negativo17@gmail.com> - 0.0.8-1.20230131git2bb71a5
+- Rebase to latest snapshot.
+
 * Tue Oct 25 2022 Simone Caronni <negativo17@gmail.com> - 0.0.7-1.20221024git4992e29
 - Update to latest 0.0.7 snapshot.
 
