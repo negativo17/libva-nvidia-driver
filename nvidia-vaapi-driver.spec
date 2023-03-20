@@ -1,10 +1,10 @@
-%global commit0 17c62b8db31ac0a9252cf46af48e6b1d159edc28
-%global date 20230205
+%global commit0 c0a7f54e3fa6b43a5a04e7bf147251dfca6897aa
+%global date 20230319
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
 Name:           nvidia-vaapi-driver
-Version:        0.0.8
-Release:        2%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
+Version:        0.0.9
+Release:        1%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
 Summary:        VA-API user mode driver for Nvidia GPUs
 License:        MIT
 URL:            https://github.com/elFarto/%{name}/
@@ -18,8 +18,8 @@ Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 BuildRequires:  gcc
 # gettid() available from glibc 2.30:
 BuildRequires:  glibc-devel >= 2.30
-BuildRequires:  mesa-libEGL-devel
 BuildRequires:  meson >= 0.58.0
+BuildRequires:  pkgconfig(egl)
 BuildRequires:  pkgconfig(ffnvcodec) >= 11.1.5.1
 BuildRequires:  pkgconfig(gstreamer-codecparsers-1.0)
 BuildRequires:  pkgconfig(libdrm) >= 2.4.60
@@ -54,6 +54,9 @@ decode of web content, and may not operate correctly in other applications.
 %{_libdir}/dri/nvidia_drv_video.so
 
 %changelog
+* Mon Mar 20 2023 Simone Caronni <negativo17@gmail.com> - 0.0.9-1.20230319gitc0a7f54
+- Update to latest snapshot.
+
 * Mon Feb 06 2023 Simone Caronni <negativo17@gmail.com> - 0.0.8-2.20230205git17c62b8
 - Add latest fixes.
 
