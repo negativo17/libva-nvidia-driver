@@ -1,9 +1,9 @@
 %global commit0 c0a7f54e3fa6b43a5a04e7bf147251dfca6897aa
 %global date 20230319
-%global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
+#global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
 Name:           nvidia-vaapi-driver
-Version:        0.0.9
+Version:        0.0.10
 Release:        1%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
 Summary:        VA-API user mode driver for Nvidia GPUs
 License:        MIT
@@ -54,6 +54,9 @@ decode of web content, and may not operate correctly in other applications.
 %{_libdir}/dri/nvidia_drv_video.so
 
 %changelog
+* Wed Jun 28 2023 Simone Caronni <negativo17@gmail.com> - 0.0.10-1
+- Update to 0.0.10.
+
 * Mon Mar 20 2023 Simone Caronni <negativo17@gmail.com> - 0.0.9-1.20230319gitc0a7f54
 - Update to latest snapshot.
 
