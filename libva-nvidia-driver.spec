@@ -2,17 +2,20 @@
 %global date 20230319
 #global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
-Name:           nvidia-vaapi-driver
-Version:        0.0.10
-Release:        1%{?shortcommit0:.%{date}git%{shortcommit0}}%{?dist}
+%global upstream_name nvidia-vaapi-driver
+
+Name:           libva-nvidia-driver
+Epoch:          1
+Version:        0.0.11
+Release:        1%{?dist}
 Summary:        VA-API user mode driver for Nvidia GPUs
 License:        MIT
-URL:            https://github.com/elFarto/%{name}/
+URL:            https://github.com/elFarto/%{upstream_name}
 
 %if "%{?shortcommit0}"
-Source0:        %{url}/archive/%{commit0}/%{name}-%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
+Source0:        %{url}/archive/%{commit0}/%{upstream_name}-%{commit0}.tar.gz#/%{upstream_name}-%{shortcommit0}.tar.gz
 %else
-Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
+Source0:        %{url}/archive/v%{version}/%{upstream_name}-%{version}.tar.gz
 %endif
 
 BuildRequires:  gcc
@@ -26,6 +29,10 @@ BuildRequires:  pkgconfig(libdrm) >= 2.4.60
 BuildRequires:  pkgconfig(libva) >= 1.8.0
 
 Conflicts:      libva-vdpau-driver%{?_isa}
+Obsoletes:      %{upstream_name} < 0.0.10-3
+Provides:       %{upstream_name} = %{version}-%{release}
+# Alternative name that better describes the API involved
+Provides:       nvdec-vaapi-driver = %{version}-%{release}
 
 Requires:       mesa-filesystem
 
@@ -36,9 +43,9 @@ decode of web content, and may not operate correctly in other applications.
 
 %prep
 %if "%{?shortcommit0}"
-%autosetup -n %{name}-%{commit0}
+%autosetup -n %{upstream_name}-%{commit0}
 %else
-%autosetup
+%autosetup -n %{upstream_name}-%{version}
 %endif
 
 %build
@@ -48,12 +55,19 @@ decode of web content, and may not operate correctly in other applications.
 %install
 %meson_install
 
+%check
+%meson_test
+
 %files
 %license COPYING
 %doc README.md
 %{_libdir}/dri/nvidia_drv_video.so
 
 %changelog
+* Wed Nov 08 2023 Simone Caronni <negativo17@gmail.com> - 0.0.11-1
+- Update to 0.0.11.
+- Rename to libva-nvidia-driver, as in main Fedora repository.
+
 * Wed Jun 28 2023 Simone Caronni <negativo17@gmail.com> - 0.0.10-1
 - Update to 0.0.10.
 
