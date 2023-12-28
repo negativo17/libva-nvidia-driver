@@ -7,7 +7,7 @@
 Name:           libva-nvidia-driver
 Epoch:          1
 Version:        0.0.11
-Release:        1%{?dist}
+Release:        1%{!?tag:.%{date}git%{shortcommit0}}%{?dist}
 Summary:        VA-API user mode driver for Nvidia GPUs
 License:        MIT
 URL:            https://github.com/elFarto/%{upstream_name}
