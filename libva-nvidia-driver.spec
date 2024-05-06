@@ -1,30 +1,22 @@
-%global commit0 c0a7f54e3fa6b43a5a04e7bf147251dfca6897aa
-%global date 20230319
-#global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
-
 %global upstream_name nvidia-vaapi-driver
 
 Name:           libva-nvidia-driver
 Epoch:          1
-Version:        0.0.11
-Release:        1%{!?tag:.%{date}git%{shortcommit0}}%{?dist}
+Version:        0.0.12
+Release:        1%{?dist}
 Summary:        VA-API user mode driver for Nvidia GPUs
 License:        MIT
 URL:            https://github.com/elFarto/%{upstream_name}
 
-%if "%{?shortcommit0}"
-Source0:        %{url}/archive/%{commit0}/%{upstream_name}-%{commit0}.tar.gz#/%{upstream_name}-%{shortcommit0}.tar.gz
-%else
 Source0:        %{url}/archive/v%{version}/%{upstream_name}-%{version}.tar.gz
-%endif
 
 BuildRequires:  gcc
-# gettid() available from glibc 2.30:
-BuildRequires:  glibc-devel >= 2.30
 BuildRequires:  meson >= 0.58.0
 BuildRequires:  pkgconfig(egl)
 BuildRequires:  pkgconfig(ffnvcodec) >= 11.1.5.1
+%if 0%{?fedora} || 0%{?rhel} >= 9
 BuildRequires:  pkgconfig(gstreamer-codecparsers-1.0)
+%endif
 BuildRequires:  pkgconfig(libdrm) >= 2.4.60
 BuildRequires:  pkgconfig(libva) >= 1.8.0
 
@@ -42,11 +34,7 @@ implementation is specifically designed to be used by Firefox for accelerated
 decode of web content, and may not operate correctly in other applications.
 
 %prep
-%if "%{?shortcommit0}"
-%autosetup -n %{upstream_name}-%{commit0}
-%else
 %autosetup -n %{upstream_name}-%{version}
-%endif
 
 %build
 %meson
@@ -64,6 +52,11 @@ decode of web content, and may not operate correctly in other applications.
 %{_libdir}/dri/nvidia_drv_video.so
 
 %changelog
+* Mon May 06 2024 Simone Caronni <negativo17@gmail.com> - 1:0.0.12-1
+- Update to 0.0.12.
+- Trim changelog.
+- Clean up SPEC file, allow it to build for EL8.
+
 * Wed Nov 08 2023 Simone Caronni <negativo17@gmail.com> - 0.0.11-1
 - Update to 0.0.11.
 - Rename to libva-nvidia-driver, as in main Fedora repository.
@@ -79,30 +72,3 @@ decode of web content, and may not operate correctly in other applications.
 
 * Sat Feb 04 2023 Simone Caronni <negativo17@gmail.com> - 0.0.8-1.20230131git2bb71a5
 - Rebase to latest snapshot.
-
-* Tue Oct 25 2022 Simone Caronni <negativo17@gmail.com> - 0.0.7-1.20221024git4992e29
-- Update to latest 0.0.7 snapshot.
-
-* Sun Sep 04 2022 Simone Caronni <negativo17@gmail.com> - 0.0.6-2.20220827gitdbf585a
-- Update to latest snapshot.
-
-* Thu May 26 2022 Simone Caronni <negativo17@gmail.com> - 0.0.6-1
-- Same version has been promoted to 0.0.6 (no other change).
-
-* Sun May 15 2022 Simone Caronni <negativo17@gmail.com> - 0.0.5-6.20220514git62a571c
-- Updated to latest snapshot.
-
-* Tue Apr 12 2022 Simone Caronni <negativo17@gmail.com> - 0.0.5-5.20220411git51aaf5e
-- Update to latest snapshot.
-
-* Tue Mar 29 2022 Simone Caronni <negativo17@gmail.com> - 0.0.5-4.20220327git10a9f6a
-- Update to latest snapshot.
-
-* Sat Mar 12 2022 Simone Caronni <negativo17@gmail.com> - 0.0.5-3
-- Backport libva check.
-
-* Sat Feb 12 2022 Simone Caronni <negativo17@gmail.com> - 0.0.5-2
-- Drop environment variables.
-
-* Sat Feb 12 2022 Simone Caronni <negativo17@gmail.com> - 0.0.5-1
-- First build.
