@@ -1,14 +1,25 @@
+%global commit0 68efa33131745f1b2d530c64f6692f3993f3d53c
+%global date 20240909
+%global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
+
 %global upstream_name nvidia-vaapi-driver
 
 Name:           libva-nvidia-driver
 Epoch:          1
-Version:        0.0.12
-Release:        1%{?dist}
+Version:        0.0.12%{!?tag:^%{date}git%{shortcommit0}}
+Release:        2%{?dist}
 Summary:        VA-API user mode driver for Nvidia GPUs
 License:        MIT
 URL:            https://github.com/elFarto/%{upstream_name}
 
+%if "%{?shortcommit0}"
+Source0:        %{url}/archive/%{commit0}/%{upstream_name}-%{commit0}.tar.gz#/%{upstream_name}-%{shortcommit0}.tar.gz
+%else
 Source0:        %{url}/archive/v%{version}/%{upstream_name}-%{version}.tar.gz
+%endif
+
+# https://github.com/elFarto/nvidia-vaapi-driver/pull/331
+Patch0:         %{name}-wayland-560.patch
 
 BuildRequires:  gcc
 BuildRequires:  meson >= 0.58.0
@@ -34,7 +45,11 @@ implementation is specifically designed to be used by Firefox for accelerated
 decode of web content, and may not operate correctly in other applications.
 
 %prep
-%autosetup -n %{upstream_name}-%{version}
+%if "%{?shortcommit0}"
+%autosetup -p1 -n %{upstream_name}-%{commit0}
+%else
+%autosetup -p1 -n %{upstream_name}-%{version}
+%endif
 
 %build
 %meson
@@ -52,6 +67,10 @@ decode of web content, and may not operate correctly in other applications.
 %{_libdir}/dri/nvidia_drv_video.so
 
 %changelog
+* Fri Oct 04 2024 Simone Caronni <negativo17@gmail.com> - 1:0.0.12^20240909git68efa33-2
+- Update to latest snapshot.
+- Add patch for 560/Wayland.
+
 * Mon May 06 2024 Simone Caronni <negativo17@gmail.com> - 1:0.0.12-1
 - Update to 0.0.12.
 - Trim changelog.
