@@ -1,13 +1,13 @@
-%global commit0 68efa33131745f1b2d530c64f6692f3993f3d53c
-%global date 20240909
+%global commit0 259b7b7b7c6891805fbfb8f799d12ea03bd260f7
+%global date 20241108
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
 %global upstream_name nvidia-vaapi-driver
 
 Name:           libva-nvidia-driver
 Epoch:          1
-Version:        0.0.12%{!?tag:^%{date}git%{shortcommit0}}
-Release:        2%{?dist}
+Version:        0.0.13%{!?tag:^%{date}git%{shortcommit0}}
+Release:        1%{?dist}
 Summary:        VA-API user mode driver for Nvidia GPUs
 License:        MIT
 URL:            https://github.com/elFarto/%{upstream_name}
@@ -17,9 +17,6 @@ Source0:        %{url}/archive/%{commit0}/%{upstream_name}-%{commit0}.tar.gz#/%{
 %else
 Source0:        %{url}/archive/v%{version}/%{upstream_name}-%{version}.tar.gz
 %endif
-
-# https://github.com/elFarto/nvidia-vaapi-driver/pull/331
-Patch0:         %{name}-wayland-560.patch
 
 BuildRequires:  gcc
 BuildRequires:  meson >= 0.58.0
@@ -67,6 +64,10 @@ decode of web content, and may not operate correctly in other applications.
 %{_libdir}/dri/nvidia_drv_video.so
 
 %changelog
+* Sun Nov 10 2024 Simone Caronni <negativo17@gmail.com> - 1:0.0.13^20241108git259b7b7-1
+- Update to latest snapshot.
+- Drop no longer needed patch.
+
 * Fri Oct 04 2024 Simone Caronni <negativo17@gmail.com> - 1:0.0.12^20240909git68efa33-2
 - Update to latest snapshot.
 - Add patch for 560/Wayland.
