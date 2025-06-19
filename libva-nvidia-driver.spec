@@ -1,13 +1,13 @@
 %global commit0 c519e97ef7af581c109f49b6973269fb16d1bc54
 %global date 20250118
-%global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
+#global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
 %global upstream_name nvidia-vaapi-driver
 
 Name:           libva-nvidia-driver
 Epoch:          1
-Version:        0.0.13%{!?tag:^%{date}git%{shortcommit0}}
-Release:        2%{?dist}
+Version:        0.0.14%{?shortcommit0:^%{date}git%{shortcommit0}}
+Release:        1%{?dist}
 Summary:        VA-API user mode driver for Nvidia GPUs
 License:        MIT
 URL:            https://github.com/elFarto/%{upstream_name}
@@ -64,6 +64,9 @@ decode of web content, and may not operate correctly in other applications.
 %{_libdir}/dri/nvidia_drv_video.so
 
 %changelog
+* Thu Jun 19 2025 Simone Caronni <negativo17@gmail.com> - 1:0.0.14-1
+- Update to final version 0.0.14.
+
 * Thu Mar 27 2025 Simone Caronni <negativo17@gmail.com> - 1:0.0.13^20250118gitc519e97-2
 - Update to latest snapshot.
 
